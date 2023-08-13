@@ -30,7 +30,7 @@ async function getWeather(searchKey) {
             throw new Error(showError());
         }
         const { location, current, forecast } = await res.json();
-        displayOnHeader(location, current, forecast);
+        displayHeaderData(location, current, forecast);
         displayHours(forecast);
         displayDays(forecast);
     }
@@ -50,75 +50,69 @@ function showError() {
             toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     })
-    
+
     Toast.fire({
         icon: 'error',
         title: 'You must enter a valid city'
     })
 }
 //! ****************************************** 2- fetch data from API and Handle Errors End ****************************************
-function displayOnHeader(location, current, forecast) {
+function displayHeaderData(location, current, forecast) {
     const minMaxTemp = document.getElementById('minMaxTemp');
     const { name: city, country } = location;
     const { temp_c, temp_f, condition, wind_kph, wind_dir, cloud, humidity } = current;
-    const { icon, text } = condition //NOTE - icon + text distribution from condition
+    const { icon, text } = condition;
     const { forecastday } = forecast;
     const { day: today } = forecastday[0];
-    const { maxtemp_c: maxTempToday_c, mintemp_c: minTempToday_c, maxtemp_f: maxTempToday_f, mintemp_f: minTempToday_f } = today
-    const currantHour = document.getElementById('curruntHour')
+    const { maxtemp_c: maxTempToday_c, mintemp_c: minTempToday_c, maxtemp_f: maxTempToday_f, mintemp_f: minTempToday_f } = today;
+    const currantHour = document.getElementById('curruntHour');
     document.getElementById('city').innerHTML = city;
     document.getElementById('country').innerHTML = country;
-    document.querySelector('.weatherIcon').setAttribute('src', `${icon}`);
-    document.querySelector('.hourlyIcons0').setAttribute('src', `${icon}`);
+    document.querySelector('.weatherIcon').setAttribute('src', icon);
+    document.querySelector('.hourlyIcons0').setAttribute('src', icon);
     document.querySelector('figcaption').innerHTML = text;
     document.getElementById('temp').innerHTML = `${Math.round(temp_c)}<sup class="display-6 ms-2">°C</sup>`;
     document.getElementById('wind').innerHTML = `${wind_kph} kp/h`;
     document.getElementById('humidity').innerHTML = `${humidity}%`;
     document.getElementById('cloud').innerHTML = `${cloud}%`;
     document.getElementById('windDir').innerHTML = wind_dir;
+
     currantHour.innerHTML = ` <span class="text-primary">${temp_c}</span><sup class="text-primary ms-1">°C</sup>`;
-    const span = document.createElement('span');
-    const sup = document.createElement('sup');
-    minMaxTemp.innerHTML = `
-        <span class="text-primary" id="">${Math.round(minTempToday_c)}</span>
-    <sup class="ms-1 text-primary me-2">o</sup>
-/
-    <span class="text-danger ms-2">${Math.round(maxTempToday_c)}</span>
-    <sup class="ms-1 text-danger">o</sup>
+
+    const minMaxTempContent = `
+        <span class="text-primary">${Math.round(minTempToday_c)}</span>
+        <sup class="ms-1 text-primary me-2">o</sup>
+        /
+        <span class='text-primary' : 'text-primary'} ms-2">${Math.round(maxTempToday_c)}</span>
+        <sup class="ms-1 'text-primary' : 'text-primary'}">o</sup>
     `;
-    if (minTempToday_c > 15) {
-        span.classList.add('text-danger');
-        sup.classList.add('text-danger');
-    } else {
-        span.classList.add('text-primary');
-        sup.classList.add('text-primary');
-    }
+    minMaxTemp.innerHTML = minMaxTempContent;
 
     changeTemp.addEventListener('change', (e) => {
-        if (e.target.checked) {
-            document.getElementById('temp').innerHTML = `${Math.round(temp_f)}<sup class="display-6 ms-2">°F</sup>`;
-            minMaxTemp.innerHTML = `
-            <span class="text-primary" id="">${Math.round(minTempToday_f)}</span>
-            <sup class="ms-1 text-primary me-2">o</sup>
-            /
-            <span class="text-danger ms-2">${Math.round(maxTempToday_f)}</span>
-            <sup class="ms-1 text-danger">o</sup>`;
-            currantHour.innerHTML = ` <span class="text-primary">${temp_f}</span><sup class="text-primary ms-1">°F</sup>`;
-            document.getElementById('day0').innerHTML = `<span class="text-primary">${temp_f}</span><sup class="text-primary ms-1">°F</sup>`
-        } else {
-            document.getElementById('temp').innerHTML = `${Math.round(temp_c)}<sup class="display-6 ms-2">°C</sup>`;
-            minMaxTemp.innerHTML = `
-            <span class="text-primary" id="">${Math.round(minTempToday_c)}</span>
-        <sup class="ms-1 text-primary me-2">o</sup>
-    /
-        <span class="text-danger ms-2">${Math.round(maxTempToday_c)}</span>
-        <sup class="ms-1 text-danger">o</sup>
-        `;
-            currantHour.innerHTML = ` <span class="text-primary">${temp_c}</span><sup class="text-primary ms-1">°C</sup>`
-            document.getElementById('day0').innerHTML = `<span class="text-primary">${temp_c}</span><sup class="text-primary ms-1">°C</sup>`
-        }
-    })
+        const newTempUnit = e.target.checked ? 'F' : 'C';
+        updateTemperatureDisplay(newTempUnit);
+        updateMinMaxTempContent(newTempUnit);
+    });
 
+    function updateTemperatureDisplay(unit) {
+        const tempValue = unit === 'F' ? Math.round(temp_f) : Math.round(temp_c);
+        const tempUnit = unit === 'F' ? '°F' : '°C';
+        document.getElementById('temp').innerHTML = `${tempValue}<sup class="display-6 ms-2">${tempUnit}</sup>`;
+        currantHour.innerHTML = ` <span class="text-primary">${tempValue}</span><sup class="text-primary ms-1">${tempUnit}</sup>`;
+    }
+    function updateMinMaxTempContent(unit) {
+        const minTemp = unit === 'F' ? Math.round(minTempToday_f) : Math.round(minTempToday_c);
+        const maxTemp = unit === 'F' ? Math.round(maxTempToday_f) : Math.round(maxTempToday_c);
+        const tempColorClass = minTemp > 15 ? 'text-primary' : 'text-primary';
+        const updatedMinMaxTempContent = `
+            <span class="${tempColorClass}">${minTemp}</span>
+            <sup class="ms-1 ${tempColorClass} me-2">o</sup>
+            /
+            <span class="${tempColorClass} ms-2">${maxTemp}</span>
+            <sup class="ms-1 ${tempColorClass}">o</sup>
+        `;
+        minMaxTemp.innerHTML = updatedMinMaxTempContent;
+    }
 }
 function displayHours(forecast) {
     const { forecastday } = forecast;
@@ -131,7 +125,6 @@ function displayHours(forecast) {
         { tempC: hour0[12].temp_c, tempF: hour0[12].temp_f, icon: hour0[12].condition.icon }
     ];
     updateTemperatureDisplay('C');
-    updateTemperatureIcons();
     function updateTemperatureDisplay(unit,) {
         hourlyTempElements.forEach((hourlyTempElement, index) => {
             hourlyTempElement.innerHTML = '';
@@ -157,6 +150,7 @@ function displayHours(forecast) {
             hourlyTempIcon.setAttribute('src', timeTempData[index].icon);
         })
     }
+    updateTemperatureIcons();
 }
 function displayDays(forecast) {
     const { forecastday } = forecast;
@@ -229,14 +223,10 @@ searchInput.addEventListener('keyup', (e) => {
         if (e.key === 'Enter') {
             getWeather(searchInput.value);
         }
-    } else {
-        showError();
     }
 })
 document.querySelector('#searchBtn').addEventListener('click', (e) => {
     if (searchInput.value.length > 0) {
         getWeather(searchInput.value);
-    } else {
-        showError();
     }
 })
