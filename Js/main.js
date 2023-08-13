@@ -13,6 +13,7 @@ const apiUrl = api + apiKey;
 const changeTemp = document.querySelector('input[name="changeTemp"]');
 const searchInput = document.getElementById('search');
 const hourlyTempElements = document.querySelectorAll('.hourlyTemp');
+const dailyTempElements = document.querySelectorAll('.dailyTemp');
 
 //TODO - add today date
 function todayDate() {
@@ -21,7 +22,7 @@ function todayDate() {
 }
 document.getElementById('todayDate').innerHTML = todayDate();
 //! **************************************** 1- declare variables End ****************************************
-//! ****************************************** 2- fetch data from API ****************************************
+//! ****************************************** 2- fetch data from API and Handle Errors ****************************************
 async function getWeather(searchKey) {
     try {
         const res = await fetch(`${apiUrl}&q=${searchKey}&days=6`);
@@ -49,12 +50,13 @@ function showError() {
             toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     })
-
+    
     Toast.fire({
         icon: 'error',
         title: 'You must enter a valid city'
     })
 }
+//! ****************************************** 2- fetch data from API and Handle Errors End ****************************************
 function displayOnHeader(location, current, forecast) {
     const minMaxTemp = document.getElementById('minMaxTemp');
     const { name: city, country } = location;
@@ -68,10 +70,8 @@ function displayOnHeader(location, current, forecast) {
     document.getElementById('country').innerHTML = country;
     document.querySelector('.weatherIcon').setAttribute('src', `${icon}`);
     document.querySelector('.hourlyIcons0').setAttribute('src', `${icon}`);
-    document.querySelector('#day0Icon').setAttribute('src', `${icon}`);
     document.querySelector('figcaption').innerHTML = text;
     document.getElementById('temp').innerHTML = `${Math.round(temp_c)}<sup class="display-6 ms-2">°C</sup>`;
-    document.getElementById('day0').innerHTML = `<span class="text-primary">${temp_c}</span><sup class="text-primary ms-1">°C</sup>`
     document.getElementById('wind').innerHTML = `${wind_kph} kp/h`;
     document.getElementById('humidity').innerHTML = `${humidity}%`;
     document.getElementById('cloud').innerHTML = `${cloud}%`;
@@ -160,56 +160,50 @@ function displayHours(forecast) {
 }
 function displayDays(forecast) {
     const { forecastday } = forecast;
-    const { day: day1 } = forecastday[1];
-    const { day: day2 } = forecastday[2];
-    const { day: day3 } = forecastday[3];
-    const { day: day4 } = forecastday[4];
-    const { day: day5 } = forecastday[5];
-    const dayAfter1 = document.querySelector('.dayAfter1');
-    const dayAfter2 = document.querySelector('.dayAfter2');
-    const dayAfter3 = document.querySelector('.dayAfter3');
-    const dayAfter4 = document.querySelector('.dayAfter4');
-
-    const { avgtemp_c: avgTodayC, avgtemp_f: avgTodayF, condition: day1Cond } = day1
-    const { avgtemp_c: avgDay1C, avgtemp_f: avgDay1F, condition: day2Cond } = day2
-    const { avgtemp_c: avgDay2C, avgtemp_f: avgDay2F, condition: day3Cond } = day3
-    const { avgtemp_c: avgDay3C, avgtemp_f: avgDay3F, condition: day4Cond } = day4
-    const { avgtemp_c: avgDay4C, avgtemp_f: avgDay4F, condition: day5Cond } = day5
-
-    document.querySelector('#day1').innerHTML = ` <span class="text-primary">${avgTodayC}</span><sup class="text-primary ms-1">°C</sup>`;
-    document.querySelector('#day2').innerHTML = ` <span class="text-primary">${avgDay1C}</span><sup class="text-primary ms-1">°C</sup>`;
-    document.querySelector('#day3').innerHTML = ` <span class="text-primary">${avgDay2C}</span><sup class="text-primary ms-1">°C</sup>`;
-    document.querySelector('#day4').innerHTML = ` <span class="text-primary">${avgDay3C}</span><sup class="text-primary ms-1">°C</sup>`;
-    document.querySelector('#day5').innerHTML = ` <span class="text-primary">${avgDay4C}</span><sup class="text-primary ms-1">°C</sup>`;
+    const dailyData = [
+        { tempC: forecastday[0].day.avgtemp_c, tempF: forecastday[0].day.avgtemp_f, icon: forecastday[0].day.condition.icon },//Today
+        { tempC: forecastday[1].day.avgtemp_c, tempF: forecastday[1].day.avgtemp_f, icon: forecastday[1].day.condition.icon },//Next Day
+        { tempC: forecastday[2].day.avgtemp_c, tempF: forecastday[2].day.avgtemp_f, icon: forecastday[2].day.condition.icon },//Next Day+1
+        { tempC: forecastday[3].day.avgtemp_c, tempF: forecastday[3].day.avgtemp_f, icon: forecastday[3].day.condition.icon },//Next Day+2
+        { tempC: forecastday[4].day.avgtemp_c, tempF: forecastday[4].day.avgtemp_f, icon: forecastday[4].day.condition.icon },//Next Day+3
+        { tempC: forecastday[5].day.avgtemp_c, tempF: forecastday[5].day.avgtemp_f, icon: forecastday[5].day.condition.icon } //Next Day+4
+    ];
+    updateDailyTempDisplay('C');
+    updateDailyTempIcons();
+    dayDate()
+    function updateDailyTempDisplay(unit) {
+        dailyTempElements.forEach((dailyTempElement, index) => {
+            dailyTempElement.innerHTML = '';
+            const span = document.createElement('span');
+            const sup = document.createElement('sup');
+            span.classList.add('text-primary');
+            span.appendChild(document.createTextNode(dailyData[index][unit === 'C' ? 'tempC' : 'tempF']));
+            span.appendChild(sup);
+            sup.appendChild(document.createTextNode(unit === 'F' ? '°F' : '°C'));
+            dailyTempElement.appendChild(span);
+        });
+    }
     changeTemp.addEventListener('change', (e) => {
         if (e.target.checked) {
-            document.querySelector('#day1').innerHTML = ` <span class="text-primary">${avgTodayF}</span><sup class="text-primary ms-1">°F</sup>`;
-            document.querySelector('#day2').innerHTML = ` <span class="text-primary">${avgDay1F}</span><sup class="text-primary ms-1">°F</sup>`;
-            document.querySelector('#day3').innerHTML = ` <span class="text-primary">${avgDay2F}</span><sup class="text-primary ms-1">°F</sup>`;
-            document.querySelector('#day4').innerHTML = ` <span class="text-primary">${avgDay3F}</span><sup class="text-primary ms-1">°F</sup>`;
-            document.querySelector('#day5').innerHTML = ` <span class="text-primary">${avgDay4F}</span><sup class="text-primary ms-1">°F</sup>`
+            updateDailyTempDisplay('F');
         } else {
-            document.querySelector('#day1').innerHTML = ` <span class="text-primary">${avgTodayC}</span><sup class="text-primary ms-1">°C</sup>`;
-            document.querySelector('#day2').innerHTML = ` <span class="text-primary">${avgDay1C}</span><sup class="text-primary ms-1">°C</sup>`;
-            document.querySelector('#day3').innerHTML = ` <span class="text-primary">${avgDay2C}</span><sup class="text-primary ms-1">°C</sup>`;
-            document.querySelector('#day4').innerHTML = ` <span class="text-primary">${avgDay3C}</span><sup class="text-primary ms-1">°C</sup>`;
-            document.querySelector('#day5').innerHTML = ` <span class="text-primary">${avgDay4C}</span><sup class="text-primary ms-1">°C</sup>`;
-
+            updateDailyTempDisplay('C');
         }
-    })
-
-    dayAfter1.innerHTML = moment().add(2, 'days').format('ddd');
-    dayAfter2.innerHTML = moment().add(3, 'days').format('ddd');
-    dayAfter3.innerHTML = moment().add(4, 'days').format('ddd');
-    dayAfter4.innerHTML = moment().add(5, 'days').format('ddd');
-
-    document.querySelector('#day1Icon').setAttribute('src', `${day1Cond.icon}`);
-    document.querySelector('#day2Icon').setAttribute('src', `${day2Cond.icon}`);
-    document.querySelector('#day3Icon').setAttribute('src', `${day3Cond.icon}`);
-    document.querySelector('#day4Icon').setAttribute('src', `${day4Cond.icon}`);
-    document.querySelector('#day5Icon').setAttribute('src', `${day5Cond.icon}`);
+    });
+    function updateDailyTempIcons() {
+        const dailyTempIcons = document.querySelectorAll('.dailyTempIcon');
+        dailyTempIcons.forEach((dailyTempIcon, index) => {
+            dailyTempIcon.setAttribute('src', dailyData[index].icon);
+        })
+    }
+    function dayDate() {
+        const dayDate = document.querySelectorAll('.dayDate');
+        dayDate.forEach((dayDate, index) => {
+            dayDate.innerHTML = moment().add(index + 1, 'days').format('ddd');
+        })
+    }
 }
-//! ****************************************** 2- fetch data from API End ****************************************
+
 //! ****************************************** 3- get currant location for user ****************************************
 function getUserLocation() {
     const success = (position) => {
