@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Weather App">
+    <title>Weather App</title>
+    <!-- LINK - MAIN Fonts  -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;500&family=Rubik:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <!-- LINK - MAIN FontAwesome - FILE  -->
+    <link rel="stylesheet" href="css/all.min.css">
+    <!-- LINK - MAIN CSS-SweetAlert - FILE -->
+    <link rel="stylesheet" href="css/sweetalert2.min.css">
+    <!-- LINK - MAIN BOOTSTRAP - FILE -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- LINK - MAIN CSS - FILE -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="vh-100">
+    <section class="d-flex  justify-content-center align-items-center ">
+        <div class="container  text-white bg-black mt-5 rounded-3 position-relative ">
+            <div class="row px-5 py-4 mt-3">
+                <div class="col-12 -3 col-sm-4 col-md-4">
+                    <div class="cityDate mt-2">
+                        <h3 class="text-start text-capitalize text-nowrap" id="city"></h3>
+                        <h4 class="text-capitalize text-nowrap text-white-50" id="country"></h4>
+                        <p class="text-capitalize text-nowrap text-white-50" id="todayDate"></p>
+                        <figure class="figure mt-4 ms-2 ">
+                            <img src="" class="img-fluid figure-img weatherIcon" alt="icon">
+                            <figcaption class="figure-caption text-center fw-bolder fs-4 text-white">Cloudy</figcaption>
+                        </figure>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-md-2 offset-sm-5 text-center mt-4">
+                    <div class="toggle position-absolute">
+                        <div id="button-3" class="button r">
+                            <input class="checkbox" type="checkbox" name="changeTemp">
+                            <div class="knobs"></div>
+                            <div class="layer"></div>
+                        </div>
+                    </div>
+                    <p class="text-start num p-0 display-1 text-center tempWidth">
+                        <span id="temp"></span>
+                    <p class="w-100 minMax num m-0" id="minMaxTemp">
+                    </p>
+                    </p>
+                </div>
+                <div class="col-12 mt-3 ">
+                    <ul class="nav nav-tabs nav-underline " id="myTab">
+                        <li class="nav-item">
+                            <button class="nav-link text-white active " id="Hourly-tab" data-bs-toggle="tab"
+                                data-bs-target="#Hourly-tab-pane" type="button">Hourly</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link text-white " id="Daily-tab" data-bs-toggle="tab"
+                                data-bs-target="#Daily-tab-pane" type="button">Daily</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link text-white " id="Details-tab" data-bs-toggle="tab"
+                                data-bs-target="#Details-tab-pane" type="button">Details</button>
+                        </li>
+                        <div class=" col-12 col-sm-4 ms-auto ">
+                            <div class="input-group">
+                                <input type="text" class="form-control text-white bg-transparent" id="search">
+                                <button class="btn btn-outline-secondary" type="button" id="searchBtn">Search</button>
+                            </div>
+                        </div>
+                    </ul>
+                    <div class="tab-content mt-3" id="myTabContent">
+                        <!-- Hourly -->
+                        <div class="tab-pane active" id="Hourly-tab-pane" ab" tabindex="0">
+                            <div class="row mt-5 px-3">
+                                <div class="col-6 col-sm-4  col-md-2">
+                                    <div
+                                        class="currnt text-center d-flex flex-column justify-content-center align-items-center">
+                                        <p class="m-0  fs-5 mb-4 text-uppercase ">Now</p>
+                                        <img src="//cdn.weatherapi.com/weather/64x64/night/116.png"
+                                            class="img-fluid hourlyIcons0" alt="">
+                                        <p class="num minMax  " id="curruntHour">
+                                        </p>
+                                    </div>
+                                    </col>
+                                </div>
+                                <div class="col-6 col-sm-4  col-md-2">
+                                    <div
+                                        class="currnt text-center d-flex flex-column justify-content-center align-items-center">
+                                        <p class="m-0  fs-5 mb-4 text-uppercase ">12:00AM</p>
+                                        <img src="//cdn.weatherapi.com/weather/64x64/night/116.png"
+                                            class="img-fluid hourlyTempIcon" alt="">
+                                        <p class="num minMax hourlyTemp ">
+                                            <!-- temp 12am here -->
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-4  col-md-2">
+                                    <div
+                                        class="currnt text-center d-flex flex-column justify-content-center align-items-center">
+                                        <p class="m-0  fs-5 mb-4 text-uppercase">03:00AM</p>
+                                        <img src="//cdn.weatherapi.com/weather/64x64/night/116.png"
+                                            class="img-fluid hourlyTempIcon" alt="">
+                                        <p class="num minMax hourlyTemp">
+                                            <!-- temp 3am here -->
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-4  col-md-2">
+                                    <div
+                                        class="currnt text-center d-flex flex-column justify-content-center align-items-center">
+                                        <p class="m-0  fs-5 mb-4 text-uppercase ">06:00AM</p>
+                                        <img src="//cdn.weatherapi.com/weather/64x64/night/116.png"
+                                            class="img-fluid hourlyTempIcon" alt="">
+                                        <p class="num minMax  hourlyTemp">
+                                            <!-- temp 6am here -->
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-4  col-md-2">
+                                    <div
+                                        class="currnt text-center d-flex flex-column justify-content-center align-items-center">
+                                        <p class="m-0  fs-5 mb-4 text-uppercase">09:00AM</p>
+                                        <img src="//cdn.weatherapi.com/weather/64x64/night/116.png"
+                                            class="img-fluid hourlyTempIcon" alt="">
+                                        <p class="num minMax hourlyTemp">
+                                            <!-- temp 9am here -->
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-4  col-md-2">
+                                    <div
+                                        class="currnt text-center d-flex flex-column justify-content-center align-items-center">
+                                        <p class="m-0  fs-5 mb-4 text-uppercase ">12:00PM</p>
+                                        <img src="//cdn.weatherapi.com/weather/64x64/night/116.png"
+                                            class="img-fluid hourlyTempIcon" alt="">
+                                        <p class="num minMax hourlyTemp ">
+                                            <!-- temp 12Pm here -->
+                                        </p>
+                                    </div>
+                                    </col>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Daily -->
+                        <div class="tab-pane fade" id="Daily-tab-pane" ab" tabindex="0">
+                            <div class="row mt-5 px-3">
+                                <div class="col-6 col-sm-4  col-md-2">
+                                    <div
+                                        class="currnt text-center d-flex flex-column justify-content-center align-items-center">
+                                        <p class="m-0  fs-5 mb-4 text-capitalize ">Today</p>
+                                        <img src="//cdn.weatherapi.com/weather/64x64/night/116.png" id="day0Icon"
+                                            class="img-fluid " alt="">
+                                        <p class="num minMax  " id="day0">
+                                            <span class="text-primary">28</span><sup class="text-primary ms-1">o</sup>
+                                        </p>
+                                    </div>
+                                    </col>
+                                </div>
+                                <div class="col-6 col-sm-4  col-md-2">
+                                    <div
+                                        class="currnt text-center d-flex flex-column justify-content-center align-items-center">
+                                        <p class="m-0  fs-5 mb-4 text-capitalize ">Tomorrow</p>
+                                        <img src="//cdn.weatherapi.com/weather/64x64/night/116.png" id="day1Icon"
+                                            class="img-fluid " alt="">
+                                        <p class="num minMax " id="day1">
+                                            <span class="text-primary ">28</span><sup class="text-primary ms-1">o</sup>
+                                        </p>
+                                    </div>
+                                    </col>
+                                </div>
+                                <div class="col-6 col-sm-4  col-md-2">
+                                    <div
+                                        class="currnt text-center d-flex flex-column justify-content-center align-items-center">
+                                        <p class="m-0  fs-5 mb-4 text-capitalize dayAfter1 ">25,sep</p>
+                                        <img src="//cdn.weatherapi.com/weather/64x64/night/116.png" id="day2Icon"
+                                            class="img-fluid " alt="">
+                                        <p class="num minMax " id="day2">
+                                            <span class="text-primary ">28</span><sup class="text-primary ms-1">o</sup>
+                                        </p>
+                                    </div>
+                                    </col>
+                                </div>
+                                <div class="col-6 col-sm-4  col-md-2">
+                                    <div
+                                        class="currnt text-center d-flex flex-column justify-content-center align-items-center">
+                                        <p class="m-0  fs-5 mb-4 text-capitalize dayAfter2 ">26,sep</p>
+                                        <img src="//cdn.weatherapi.com/weather/64x64/night/116.png" id="day3Icon"
+                                            class="img-fluid " alt="">
+                                        <p class="num minMax " id="day3">
+                                            <span class="text-primary ">28</span><sup class="text-primary ms-1">o</sup>
+                                        </p>
+                                    </div>
+                                    </col>
+                                </div>
+                                <div class="col-6 col-sm-4 col-md-2">
+                                    <div
+                                        class="currnt text-center d-flex flex-column justify-content-center align-items-center">
+                                        <p class="m-0  fs-5 mb-4 text-capitalize dayAfter3 ">27,sep</p>
+                                        <img src="//cdn.weatherapi.com/weather/64x64/night/116.png" id="day4Icon"
+                                            class="img-fluid " alt="">
+                                        <p class="num minMax  " id="day4">
+                                            <span class="text-primary ">28</span><sup class="text-primary ms-1">o</sup>
+                                        </p>
+                                    </div>
+                                    </col>
+                                </div>
+                                <div class="col-6 col-sm-4  col-md-2">
+                                    <div
+                                        class="currnt text-center d-flex flex-column justify-content-center align-items-center">
+                                        <p class="m-0  fs-5 mb-4 text-capitalize dayAfter4 ">28,sep</p>
+                                        <img src="//cdn.weatherapi.com/weather/64x64/night/116.png" id="day5Icon"
+                                            class="img-fluid " alt="">
+                                        <p class="num minMax  " id="day5">
+                                            <span class="text-primary ">28</span><sup class="text-primary ms-1">o</sup>
+                                        </p>
+                                    </div>
+                                    </col>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Details -->
+                        <div class="tab-pane fade" id="Details-tab-pane" tabindex="0">
+                            <div class="row mt-5 px-3 ">
+                                <div class="col-6 col-sm-3">
+                                    <div
+                                        class="currnt text-center d-flex flex-column justify-content-center align-items-center">
+                                        <i class="fa-solid fa-wind fa-3x mb-3"></i>
+                                        <p class="num minMax  ">
+                                            <span class="text-primary text-white-50" id="wind">28</span>
+                                        </p>
+                                        <p class="m-0  fs-5 mb-4 text-capitalize ">Wind</p>
+                                    </div>
+                                    </col>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <div
+                                        class="currnt text-center d-flex flex-column justify-content-center align-items-center">
+                                        <i class="fa-brands fa-drupal fa-3x fa-fade mb-3"></i>
+                                        <p class="num minMax ">
+                                            <span class="text-primary text-white-50" id="humidity"></span>
+                                        </p>
+                                        <p class="m-0  fs-5 mb-4 text-capitalize ">Humidity</p>
+                                    </div>
+                                    </col>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <div
+                                        class="currnt text-center d-flex flex-column justify-content-center align-items-center">
+                                        <i class="fa-solid fa-cloud fa-3x mb-3"></i>
+                                        <p class="num minMax ">
+                                            <span class="text-primary text-white-50" id="cloud"></span>
+                                        </p>
+                                        <p class="m-0  fs-5 mb-4 text-capitalize ">cloud</p>
+                                    </div>
+                                    </col>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <div
+                                        class="currnt text-center d-flex flex-column justify-content-center align-items-center">
+                                        <i class="fa-solid fa-compass fa-spin-pulse fa-3x mb-3"></i>
+                                        <p class="num minMax  ">
+                                            <span class="text-primary text-white-50" id="windDir"></span>
+                                        </p>
+                                        <p class="m-0  fs-5 mb-4 text-capitalize text-nowrap ">Wind Dir</p>
+                                    </div>
+                                    </col>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<!-- SCRIPT - MAIN JS - FILE -->
+<script src="Js/sweetalert2.all.min.js"></script>
+<script src="Js/moment.js"></script>
+<script src="Js/bootstrap.min.js"></script>
+<script src="Js/main.js"></script>
+
+</html>

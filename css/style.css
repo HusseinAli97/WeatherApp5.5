@@ -1,0 +1,270 @@
+:root {
+    --color1: #A2A8C9;
+    --color2: #D7BAC4;
+    --color3: #EBC8C5;
+    --color4: #5C4F83;
+    --color5: #755A8B;
+}
+
+body {
+    font-family: 'Rubik', sans-serif;
+    background: linear-gradient(to bottom, var(--color1) 20%, var(--color3));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.555)), url('../img/bg1.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.container {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.878)), url('../img/bg1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    box-shadow: 0 10px 20px -8px #001f1f;
+    min-height: 600px;
+    min-width: 75vw;
+}
+
+@media all and (max-width: 768px) {
+    .container {
+        min-width: auto;
+        min-height: auto;
+        padding-right: 50px;
+    }
+}
+@media all and (max-width: 600px) {
+    .toggle {
+        margin-top: 80px;
+    }
+    section {
+        margin-top: 120px;
+        text-align: center;
+    }
+    .container {
+
+    }
+    .form-control:focus {
+        border-color: var(--color1);
+        box-shadow: 0 0 10px 0.25rem var(--color4);
+        border-right: 1px solid var(--color);
+        border-color: var(--color4);
+
+    }
+    
+    .form-control:focus ~ button {
+        box-shadow: 0 0 10px 0.25rem var(--color4);
+        border-color: var(--color4);
+    }
+    
+    .form-control ~ button {
+        border-color: var(--color1);
+        border-left: 1px solid rebeccapurple !important;
+    }
+    
+    .form-control {
+        border-right: 1px solid var(--color) !important;
+        border-color: var(--color1);
+    
+    }
+    
+    .form-control~.btn:hover {
+        background-color: var(--color4);
+    }
+}
+    
+
+.cityDate {
+    line-height: 5px;
+    font-weight: 300;
+}
+
+.num {
+    font-family: 'Raleway', sans-serif;
+}
+
+.button-cover {
+    height: 100px;
+    margin: 20px;
+    background-color: #fff;
+    box-shadow: 0 10px 20px -8px #c5d6d6;
+    border-radius: 4px;
+}
+
+.button-cover:before {
+    counter-increment: button-counter;
+    content: counter(button-counter);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    color: #d7e3e3;
+    font-size: 12px;
+    line-height: 1;
+    padding: 5px;
+}
+
+.button-cover,
+.knobs,
+.layer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.button {
+    position: relative;
+    top: 50%;
+    width: 50px;
+    height: 22px;
+    margin: -20px auto 0 auto;
+    overflow: hidden;
+}
+
+.checkbox {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.knobs {
+    z-index: 2;
+}
+
+.layer {
+    width: 100%;
+    background-color: #5c4f8388;
+    transition: 0.3s ease all;
+    z-index: 1;
+}
+
+.button.r,
+.button.r .layer {
+    border-radius: 100px;
+}
+
+#button-3 .knobs:before {
+    content: "°C";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 22px;
+    height: 22px;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+    padding: 9px 4px;
+    background-color: #03a8f469;
+    border-radius: 50%;
+    font-size: .9rem;
+    transition: 0.3s ease all, left 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15);
+}
+
+#button-3 .checkbox:active+.knobs:before {
+    width: 46px;
+    border-radius: 100px;
+}
+
+#button-3 .checkbox:checked:active+.knobs:before {
+    margin-left: -26px;
+}
+
+#button-3 .checkbox:checked+.knobs:before {
+    content: "°F";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 28px;
+    top: 0px;
+    font-size: .9rem;
+    background-color: var(--color4);
+}
+
+#button-3 .checkbox:checked~.layer {
+    background-color: #d7bac48c;
+}
+
+.toggle {
+    text-align: center;
+    top: 35px;
+    right: 35px;
+}
+
+.minMax {
+    text-align: center;
+    font-size: calc(20px + .0655vw);
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.nav-underline {
+    border-bottom: 2px solid #ffffff6d;
+}
+
+.nav-tabs .nav-link:focus,
+.nav-tabs .nav-link:hover {
+    border: none;
+    border-bottom: 2px solid #EBC8C5;
+    color: #EBC8C5 !important;
+    text-shadow: 1px 1px 1px #000000;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    border-bottom: 2px solid transparent;
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+    background-color: transparent;
+    font-weight: normal;
+    color: #EBC8C5 !important;
+    border-bottom: 2px solid #EBC8C5;
+}
+
+.form-control:focus {
+    border-color: var(--color1);
+    box-shadow: 0 0 10px 0.25rem var(--color4);
+    border-right: transparent !important;
+    border-color: var(--color4);
+}
+
+.form-control:focus~button {
+    box-shadow: 0 0 10px 0.25rem var(--color4);
+    border-color: var(--color4);
+
+
+}
+
+.form-control~button {
+    border-color: var(--color1);
+    border-left: transparent !important;
+}
+
+.form-control {
+    border-right: transparent !important;
+    border-color: var(--color1);
+
+}
+
+.form-control~.btn:hover {
+    background-color: var(--color4);
+}
+
+.tempWidth {
+    width: 150px;
+    display: block;
+    text-align: center;
+    margin-left: 20px;
+}
