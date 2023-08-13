@@ -123,51 +123,40 @@ function displayOnHeader(location, current, forecast) {
 function displayHours(forecast) {
     const { forecastday } = forecast;
     const { hour: hour0, } = forecastday[0];
-    const { temp_c: twelveAMTemp, temp_f: twelveAMTempF, condition: c1 } = hour0[0];
-    const { temp_c: threeAMTemp, temp_f: threeAMTempF, condition: c2 } = hour0[3];
-    const { temp_c: sixAMTemp, temp_f: sixAMTempF, condition: c3 } = hour0[6];
-    const { temp_c: nineAMTemp, temp_f: nineAMTempF, condition: c4 } = hour0[9];
-    const { temp_c: twelvePMTemp, temp_f: twelvePMTempF, condition: c5 } = hour0[12];
-    hoursTempIconHandel(c1.icon, c2.icon, c3.icon, c4.icon, c5.icon);
-    hoursTempCHandel(twelveAMTemp, threeAMTemp, sixAMTemp, nineAMTemp, twelvePMTemp);
+    const timeTempData = [
+        { tempC: hour0[0].temp_c, tempF: hour0[0].temp_f, icon: hour0[0].condition.icon },
+        { tempC: hour0[3].temp_c, tempF: hour0[3].temp_f, icon: hour0[3].condition.icon },
+        { tempC: hour0[6].temp_c, tempF: hour0[6].temp_f, icon: hour0[6].condition.icon },
+        { tempC: hour0[9].temp_c, tempF: hour0[9].temp_f, icon: hour0[9].condition.icon },
+        { tempC: hour0[12].temp_c, tempF: hour0[12].temp_f, icon: hour0[12].condition.icon }
+    ];
+    updateTemperatureDisplay('C');
+    updateTemperatureIcons();
+    function updateTemperatureDisplay(unit,) {
+        hourlyTempElements.forEach((hourlyTempElement, index) => {
+            hourlyTempElement.innerHTML = '';
+            const span = document.createElement('span');
+            const sup = document.createElement('sup');
+            span.classList.add('text-primary');
+            span.appendChild(document.createTextNode(timeTempData[index][unit === 'C' ? 'tempC' : 'tempF']));
+            span.appendChild(sup);
+            sup.appendChild(document.createTextNode(unit === 'F' ? '°F' : '°C'));
+            hourlyTempElement.appendChild(span);
+        })
+    }
     changeTemp.addEventListener('change', (e) => {
         if (e.target.checked) {
-            hoursTempFHandel(twelveAMTempF, threeAMTempF, sixAMTempF, nineAMTempF, twelvePMTempF);
+            updateTemperatureDisplay('F');
         } else {
-            hoursTempCHandel(twelveAMTemp, threeAMTemp, sixAMTemp, nineAMTemp, twelvePMTemp);
+            updateTemperatureDisplay('C');
         }
-    });
-}
-function hoursTempCHandel(...time) {
-    hourlyTempElements.forEach((hourlyTempElement, index) => {
-        hourlyTempElement.innerHTML = ''; // Clear existing content
-        const span = document.createElement('span');
-        const sup = document.createElement('sup');
-        span.classList.add('text-primary');
-        span.appendChild(document.createTextNode(time[index]));
-        span.appendChild(sup);
-        sup.appendChild(document.createTextNode('°C'));
-        hourlyTempElement.appendChild(span);
-    });
-}
-
-function hoursTempFHandel(...time) {
-    hourlyTempElements.forEach((hourlyTempElement, index) => {
-        hourlyTempElement.innerHTML = ''; // Clear existing content
-        const span = document.createElement('span');
-        const sup = document.createElement('sup');
-        span.classList.add('text-primary');
-        span.appendChild(document.createTextNode(time[index]));
-        span.appendChild(sup);
-        sup.appendChild(document.createTextNode('°F'));
-        hourlyTempElement.appendChild(span);
-    });
-} 
-function hoursTempIconHandel(...src) {
-    const hourlyTempIcons = document.querySelectorAll('.hourlyTempIcon');
-    hourlyTempIcons.forEach((hourlyTempIcon, index) => {
-        hourlyTempIcon.setAttribute('src', src[index]);
     })
+    function updateTemperatureIcons() {
+        const hourlyTempIcons = document.querySelectorAll('.hourlyTempIcon');
+        hourlyTempIcons.forEach((hourlyTempIcon, index) => {
+            hourlyTempIcon.setAttribute('src', timeTempData[index].icon);
+        })
+    }
 }
 function displayDays(forecast) {
     const { forecastday } = forecast;
@@ -242,18 +231,18 @@ function getUserLocation() {
 getUserLocation();
 
 searchInput.addEventListener('keyup', (e) => {
-    if(e.target.value.length > 0) {
+    if (e.target.value.length > 0) {
         if (e.key === 'Enter') {
             getWeather(searchInput.value);
         }
-    }else {
+    } else {
         showError();
     }
 })
 document.querySelector('#searchBtn').addEventListener('click', (e) => {
-    if(searchInput.value.length > 0) {
-            getWeather(searchInput.value);
-    }else {
+    if (searchInput.value.length > 0) {
+        getWeather(searchInput.value);
+    } else {
         showError();
     }
 })
