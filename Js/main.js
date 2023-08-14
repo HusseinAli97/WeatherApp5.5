@@ -202,15 +202,17 @@ function changeWallpaper(condition) {
     let imageUrl;
     switch (weatherText) {
         case "Sunny":
-        case "Clear":
             imageUrl = "https://source.unsplash.com/1600x900/?sun";
+            break;
+        case "Clear":
+            imageUrl = "https://source.unsplash.com/1600x900/?clear_sky";
             break;
         case "Partly cloudy":
         case "Cloudy":
             imageUrl = "https://source.unsplash.com/1600x900/?cloudy";
             break;
         case "Overcast":
-            imageUrl = "URL_FOR_OVERCAST_IMAGE";
+            imageUrl = "https://source.unsplash.com/1600x900/?overcast";
             break;
         case "Mist":
         case "Fog":
@@ -222,12 +224,11 @@ function changeWallpaper(condition) {
         case "Patchy freezing drizzle possible":
             imageUrl = "https://source.unsplash.com/1600x900/?rain";
             break;
-        case "Patchy snow possible":
-            imageUrl = "https://source.unsplash.com/1600x900/?snow";
-            break;
         case "Light rain":
         case "Moderate rain at times":
         case "Moderate rain":
+            imageUrl = "https://source.unsplash.com/1600x900/?rain";
+            break;
         case "Heavy rain at times":
         case "Heavy rain":
         case "Light rain shower":
@@ -235,7 +236,7 @@ function changeWallpaper(condition) {
         case "Torrential rain shower":
         case "Patchy light rain with thunder":
         case "Moderate or heavy rain with thunder":
-            imageUrl = "https://source.unsplash.com/1600x900/?rain";
+            imageUrl = "https://source.unsplash.com/1600x900/?heavy_rain";
             break;
         case "Patchy light drizzle":
         case "Light drizzle":
@@ -252,16 +253,19 @@ function changeWallpaper(condition) {
         case "Light snow":
         case "Patchy moderate snow":
         case "Moderate snow":
+        case "Patchy snow possible":
         case "Patchy heavy snow":
         case "Heavy snow":
         case "Light snow showers":
         case "Moderate or heavy snow showers":
         case "Ice pellets":
         case "Light showers of ice pellets":
+            imageUrl = "https://source.unsplash.com/1600x900/?snow";
+            break;
         case "Moderate or heavy showers of ice pellets":
         case "Blowing snow":
         case "Blizzard":
-            imageUrl = "https://source.unsplash.com/1600x900/?snow";
+            imageUrl = "https://source.unsplash.com/1600x900/?blizzard";
             break;
         default:
             imageUrl = "../img/bg1.jpg";

@@ -9,14 +9,12 @@
 body {
     --gradient-top-color: var(--color1);
     --gradient-bottom-color: var(--color3);
-    --bg-image-overlay: rgba(0, 0, 0, 0.77);
     --bg-image: url('../img/bg1.jpg');
     /* --------------------------------------------------- */
     font-family: 'Rubik', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), var(--bg-image-overlay)), var(--bg-image);
     background-size: cover;
     background-position: center;
 }
@@ -25,9 +23,7 @@ body {
     --overlay-color: rgba(0, 0, 0, 0.878);
     --box-shadow-color: #001f1f;
     --min-width: 75vw;
-    --bg-image: url('../img/bg1.jpg');
     /* --------------------------------------------------- */
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), var(--overlay-color)), var(--bg-image);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
