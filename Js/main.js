@@ -25,14 +25,21 @@ document.getElementById('todayDate').innerHTML = todayDate();
 //! ****************************************** 2- fetch data from API and Handle Errors ****************************************
 async function getWeather(searchKey) {
     try {
+        showLoadingScreen();
         const res = await fetch(`${apiUrl}&q=${searchKey}&days=6`);
+
         if (res.status !== 200) {
             throw new Error(showError());
         }
         const { location, current, forecast } = await res.json();
+        let { condition } = current;
         displayHeaderData(location, current, forecast);
         displayHours(forecast);
         displayDays(forecast);
+        changeWallpaper(condition);
+        setTimeout(() => {
+            hideLoadingScreen();
+        }, 3000);
     }
     catch (err) {
         console.log(err);
@@ -62,7 +69,6 @@ function displayHeaderData(location, current, forecast) {
     const { name: city, country } = location;
     const { temp_c, temp_f, condition, wind_kph, wind_dir, cloud, humidity } = current;
     const { icon, text } = condition;
-    changeWallpaper(condition);
     const { forecastday } = forecast;
     const { day: today } = forecastday[0];
     const { maxtemp_c: maxTempToday_c, mintemp_c: minTempToday_c, maxtemp_f: maxTempToday_f, mintemp_f: minTempToday_f } = today;
@@ -283,14 +289,21 @@ function changeWallpaper(condition) {
 
 //! ****************************************** 3- get currant location for user ****************************************
 function getUserLocation() {
+    showLoadingScreen();
     const success = (position) => {
         const currantLoc = `${position.coords.latitude},${position.coords.longitude}`;
         getWeather(currantLoc);
+        setTimeout(() => {
+            hideLoadingScreen();
+        }, 3000);
     }
     const error = () => {
         const latitude = (Math.random() * 180 - 90).toFixed(4);
         const longitude = (Math.random() * 360 - 180).toFixed(4);
         getWeather(`${latitude},${longitude}`);
+        setTimeout(() => {
+            hideLoadingScreen();
+        }, 3000);
     }
     const options = {
         enableHighAccuracy: true,
@@ -314,3 +327,14 @@ document.querySelector('#searchBtn').addEventListener('click', (e) => {
     }
 })
 
+function showLoadingScreen() {
+    const loadingScreen = document.querySelector('.loading-screen');
+    loadingScreen.classList.replace('d-none', 'd-flex');
+    document.querySelector('section').classList.replace('d-flex', 'd-none');
+}
+
+function hideLoadingScreen() {
+    const loadingScreen = document.querySelector('.loading-screen');
+    loadingScreen.classList.replace('d-flex', 'd-none');
+    document.querySelector('section').classList.replace('d-none', 'd-flex');
+}
