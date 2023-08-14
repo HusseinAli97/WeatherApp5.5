@@ -25,9 +25,7 @@ document.getElementById('todayDate').innerHTML = todayDate();
 //! ****************************************** 2- fetch data from API and Handle Errors ****************************************
 async function getWeather(searchKey) {
     try {
-        showLoadingScreen();
         const res = await fetch(`${apiUrl}&q=${searchKey}&days=6`);
-
         if (res.status !== 200) {
             throw new Error(showError());
         }
@@ -37,9 +35,6 @@ async function getWeather(searchKey) {
         displayHours(forecast);
         displayDays(forecast);
         changeWallpaper(condition);
-        setTimeout(() => {
-            hideLoadingScreen();
-        }, 3000);
     }
     catch (err) {
         console.log(err);
