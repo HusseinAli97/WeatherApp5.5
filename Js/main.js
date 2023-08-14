@@ -80,11 +80,12 @@ function displayHeaderData(location, current, forecast) {
     currantHour.innerHTML = ` <span class="text-primary">${temp_c}</span><sup class="text-primary ms-1">°C</sup>`;
 
     const minMaxTempContent = `
-        <span class="text-primary">${Math.round(minTempToday_c)}</span>
-        <sup class="ms-1 text-primary me-2">o</sup>
+        <span class="text-primary">${Math.round(minTempToday_c)}
+        <sup class="text-primary ms-1">o</sup>
+        </span>
         /
-        <span class='text-primary' : 'text-primary'} ms-2">${Math.round(maxTempToday_c)}</span>
-        <sup class="ms-1 'text-primary' : 'text-primary'}">o</sup>
+        <span class='text-primary'} ms-2">${Math.round(maxTempToday_c)}<sup class="ms-1 text-primary">o</sup></span>
+        
     `;
     minMaxTemp.innerHTML = minMaxTempContent;
 
@@ -103,10 +104,9 @@ function displayHeaderData(location, current, forecast) {
     function updateMinMaxTempContent(unit) {
         const minTemp = unit === 'F' ? Math.round(minTempToday_f) : Math.round(minTempToday_c);
         const maxTemp = unit === 'F' ? Math.round(maxTempToday_f) : Math.round(maxTempToday_c);
-        const tempColorClass = minTemp > 15 ? 'text-primary' : 'text-primary';
+        const tempColorClass = minTemp > 15 ? 'text-primary' : 'text-danger';
         const updatedMinMaxTempContent = `
-            <span class="${tempColorClass}">${minTemp}</span>
-            <sup class="ms-1 ${tempColorClass} me-2">o</sup>
+            <span class="${tempColorClass}">${minTemp}<sup class=" ${tempColorClass} ms-1">o</sup></span>
             /
             <span class="${tempColorClass} ms-2">${maxTemp}</span>
             <sup class="ms-1 ${tempColorClass}">o</sup>
@@ -230,3 +230,4 @@ document.querySelector('#searchBtn').addEventListener('click', (e) => {
         getWeather(searchInput.value);
     }
 })
+
