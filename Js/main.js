@@ -62,6 +62,7 @@ function displayHeaderData(location, current, forecast) {
     const { name: city, country } = location;
     const { temp_c, temp_f, condition, wind_kph, wind_dir, cloud, humidity } = current;
     const { icon, text } = condition;
+    changeWallpaper(condition);
     const { forecastday } = forecast;
     const { day: today } = forecastday[0];
     const { maxtemp_c: maxTempToday_c, mintemp_c: minTempToday_c, maxtemp_f: maxTempToday_f, mintemp_f: minTempToday_f } = today;
@@ -76,7 +77,6 @@ function displayHeaderData(location, current, forecast) {
     document.getElementById('humidity').innerHTML = `${humidity}%`;
     document.getElementById('cloud').innerHTML = `${cloud}%`;
     document.getElementById('windDir').innerHTML = wind_dir;
-
     currantHour.innerHTML = ` <span class="text-primary">${temp_c}</span><sup class="text-primary ms-1">°C</sup>`;
 
     const minMaxTempContent = `
@@ -196,6 +196,85 @@ function displayDays(forecast) {
             dayDate.innerHTML = moment().add(index + 1, 'days').format('ddd');
         })
     }
+}
+function changeWallpaper(condition) {
+    let { text: weatherText } = condition;
+    let imageUrl;
+    switch (weatherText) {
+        case "Sunny":
+        case "Clear":
+            imageUrl = "https://source.unsplash.com/1600x900/?sun";
+            break;
+        case "Partly cloudy":
+        case "Cloudy":
+            imageUrl = "https://source.unsplash.com/1600x900/?cloudy";
+            break;
+        case "Overcast":
+            imageUrl = "URL_FOR_OVERCAST_IMAGE";
+            break;
+        case "Mist":
+        case "Fog":
+        case "Freezing fog":
+            imageUrl = "https://source.unsplash.com/1600x900/?fog";
+            break;
+        case "Patchy rain possible":
+        case "Patchy sleet possible":
+        case "Patchy freezing drizzle possible":
+            imageUrl = "https://source.unsplash.com/1600x900/?rain";
+            break;
+        case "Patchy snow possible":
+            imageUrl = "https://source.unsplash.com/1600x900/?snow";
+            break;
+        case "Light rain":
+        case "Moderate rain at times":
+        case "Moderate rain":
+        case "Heavy rain at times":
+        case "Heavy rain":
+        case "Light rain shower":
+        case "Moderate or heavy rain shower":
+        case "Torrential rain shower":
+        case "Patchy light rain with thunder":
+        case "Moderate or heavy rain with thunder":
+            imageUrl = "https://source.unsplash.com/1600x900/?rain";
+            break;
+        case "Patchy light drizzle":
+        case "Light drizzle":
+        case "Freezing drizzle":
+        case "Heavy freezing drizzle":
+            imageUrl = "https://source.unsplash.com/1600x900/?drizzle";
+            break;
+        case "Light sleet":
+        case "Moderate or heavy sleet":
+        case "Light sleet showers":
+        case "Moderate or heavy sleet showers":
+            imageUrl = "https://source.unsplash.com/1600x900/?sleet";
+            break;
+        case "Light snow":
+        case "Patchy moderate snow":
+        case "Moderate snow":
+        case "Patchy heavy snow":
+        case "Heavy snow":
+        case "Light snow showers":
+        case "Moderate or heavy snow showers":
+        case "Ice pellets":
+        case "Light showers of ice pellets":
+        case "Moderate or heavy showers of ice pellets":
+        case "Blowing snow":
+        case "Blizzard":
+            imageUrl = "https://source.unsplash.com/1600x900/?snow";
+            break;
+        default:
+            imageUrl = "../img/bg1.jpg";
+            break;
+    }
+    document.body.style.background = `linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url("${imageUrl}")`;
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundRepeat = 'no-repeat';
+    document.body.style.backgroundPosition = 'center';
+    document.querySelector('.container').style.background = `linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url("${imageUrl}")`;
+    document.querySelector('.container').style.backgroundSize = 'cover';
+    document.querySelector('.container').style.backgroundRepeat = 'no-repeat';
+    document.querySelector('.container').style.backgroundPosition = 'center';
 }
 
 //! ****************************************** 3- get currant location for user ****************************************
