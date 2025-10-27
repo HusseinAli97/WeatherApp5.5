@@ -9,8 +9,8 @@
 body {
     --gradient-top-color: var(--color1);
     --gradient-bottom-color: var(--color3);
-    --bg-image: url('../img/bg1.jpg');
     /* --------------------------------------------------- */
+    background: url('../img/bg1.jpg');
     font-family: 'Rubik', sans-serif;
     display: flex;
     justify-content: center;
@@ -30,6 +30,8 @@ body {
     box-shadow: 0 10px 20px -8px var(--box-shadow-color);
     min-height: 600px;
     min-width: var(--min-width);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url("/img/bg1.jpg");
+
 }
 
 @media all and (max-width: 768px) {
@@ -69,6 +71,7 @@ body {
     .form-control~.btn:hover {
         background-color: var(--color4);
     }
+
     .tempWidth {
         width: 100% !important;
         text-align: center;
@@ -86,12 +89,12 @@ body {
 
 }
 
-.form-control:focus ~ button {
+.form-control:focus~button {
     box-shadow: 0 0 10px 0.25rem var(--color4);
     border-color: var(--color4);
 }
 
-.form-control ~ button {
+.form-control~button {
     border-color: var(--color1);
     border: .1px solid white !important;
 }
@@ -105,6 +108,7 @@ body {
 .form-control~.btn:hover {
     background-color: var(--color4);
 }
+
 .cityDate {
     line-height: 5px;
     font-weight: 300;
